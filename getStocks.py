@@ -341,26 +341,3 @@ while len(papeis)>0:
             except:
                     print("### Erro: "+papel)
                     print(papeis)
-
-                
-"""i = 1
-while i < 6:
-  print(i)
-  i += 1
-
-
-
-language = ['Python', 'Java', 'C++', 'French', 'C']
-
-# Return value from pop()
-# When 3 is passed
-searchvalue = "Java"
-popvalue = language.index(searchvalue)
-language.pop(popvalue)
-print('Return Value: ', searchvalue)
-
-# Updated List
-print('Updated List: ', language)
-"""
-        
-   
