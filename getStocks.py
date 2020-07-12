@@ -1,9 +1,9 @@
-from urllib.request import urlopen
+from urllib.request import urlopen, Request
 import os
 import datetime
 
 ##carrega os papeis de stocksList.csv
-stocksList = open('stocksList.csv', 'r')
+stocksList = open('stocksList_old.csv', 'r')
 papeis = stocksList.read().split(';')
 stocksList.close()
 
@@ -14,10 +14,11 @@ mes = now.month
 data = str(dia)+"."+str(mes)
 
 ## cria diretorio para a data de hoje-1
-os.mkdir(data)
+if (not os.path.isdir('./'+data)):
+    os.mkdir(data)
 
 
-url = "http://fundamentus.com.br/detalhes.php?papel="
+url = "https://fundamentus.com.br/detalhes.php?papel="
 
 def faltam(papeis):
     print(len(papeis))
@@ -25,9 +26,10 @@ def faltam(papeis):
 while len(papeis)>0:
     for papel in papeis:                 
             try:
-                    content = urlopen(url+papel)
+                    
                     #print(papel+": "+str(content.code))
-                    html = content.read()
+                    r = Request(url+papel, headers={'User-Agent': 'Mozilla/5.0'})
+                    html = urlopen(r).read()
                     # print (html)
                     
                     if(b'Nenhum papel encontrado' in html):
@@ -47,8 +49,8 @@ while len(papeis)>0:
                             popvalue = papeis.index(papel)
                             papeis.pop(popvalue)
                             faltam(papeis)
-            except:
-                    print("### Erro: "+papel)
+            except Exception as e:
+                    print("#ERRO: ",papel," ", str(e))
                     #print(papeis)
 
 
